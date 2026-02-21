@@ -7,7 +7,6 @@ import {
   deleteFromPortfolio,
   getUserPortfolio,
   logTransaction,
-  updatePortfolioAsset,
 } from '@/services/portfolio';
 import { getCoinPrices } from '@/services/coingecko';
 import { calculateProfit } from '@/utils/calculateProfits';
@@ -34,11 +33,6 @@ const Portfolio = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  // 🔹 Modal state
-  const [editingAsset, setEditingAsset] = useState<any | null>(null);
-  const [editAmount, setEditAmount] = useState('');
-  const [editPrice, setEditPrice] = useState('');
-  const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
 
   // 🔹 Fetch portfolio and prices
   const fetchPortfolio = async () => {
