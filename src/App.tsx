@@ -6,6 +6,10 @@ import Dashboard from './pages/Dashboard';
 import AddAsset from './pages/AddAssets';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import Portfolio from './pages/Portfolio';
+import Markets from './pages/Markets';
+import Transactions from './pages/Transactions';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -29,6 +33,38 @@ function App() {
         element={
           <ProtectedRoute>
             <AddAsset />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/portfolio"
+        element={
+          <ProtectedRoute>
+            <Portfolio />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/markets"
+        element={
+          <ProtectedRoute>
+            <Markets />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/transactions"
+        element={
+          <ProtectedRoute>
+            <Transactions />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
           </ProtectedRoute>
         }
       />

@@ -7,11 +7,13 @@ import {
   TrendingUp,
   ArrowLeftRight,
   Settings,
-  LogOut
+  LogOut,
+  PlusCircle
 } from 'lucide-react';
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/add-asset', label: 'Add Asset', icon: PlusCircle },
   { to: '/portfolio', label: 'Portfolio', icon: Briefcase },
   { to: '/markets', label: 'Markets', icon: TrendingUp },
   { to: '/transactions', label: 'Transactions', icon: ArrowLeftRight },

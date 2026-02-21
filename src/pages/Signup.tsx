@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Mail, Lock, Eye, EyeOff, Loader2, Check } from 'lucide-react';
+import { createUserProfile } from '@/services/user';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -15,25 +16,37 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate('/dashboard');
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create account';
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+    if (user?.uid) {
+      await createUserProfile(user.uid, email);
     }
-  };
+
+    navigate("/dashboard");
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : "Failed to create account";
+    setError(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const passwordRequirements = [
     { met: password.length >= 8, text: 'At least 8 characters' },
     { met: /[A-Z]/.test(password), text: 'One uppercase letter' },
     { met: /[0-9]/.test(password), text: 'One number' },
+    { met: /[!@#$%^&*.]/.test(password), text: 'One special character' },
   ];
 
   return (
