@@ -123,35 +123,6 @@ const Portfolio = () => {
     }
   };
 
-  // 🔹 Start editing
-  const handleEdit = (asset: any) => {
-    setEditingAsset(asset);
-    setEditAmount(asset.amount.toString());
-    setEditPrice(asset.buyPrice.toString());
-  };
-
-  // 🔹 Submit edit
-  const submitEdit = async () => {
-    if (!editAmount || !editPrice || !editingAsset) return;
-
-    setIsSubmittingEdit(true);
-    try {
-      const amount = parseFloat(editAmount);
-      const buyPrice = parseFloat(editPrice);
-      const totalSpent = amount * buyPrice;
-      await updatePortfolioAsset(editingAsset.id, amount, totalSpent);
-      setSuccess(true);
-      setEditingAsset(null);
-      fetchPortfolio();
-      setTimeout(() => setSuccess(false), 2000);
-    } catch (err) {
-      console.error(err);
-      setError('Failed to update asset.');
-    } finally {
-      setIsSubmittingEdit(false);
-    }
-  };
-
   // 🔹 Filtered portfolio
   const filteredPortfolio = portfolio.filter((asset) => {
     const matchesSearch = asset;
@@ -379,49 +350,6 @@ const Portfolio = () => {
             </table>
           </div>
         </div>
-
-        {/* Edit Modal */}
-        {editingAsset && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl p-6 w-full max-w-md">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Edit {editingAsset.name}
-              </h2>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Amount
-                </label>
-                <Input
-                  type="number"
-                  step="any"
-                  min="0"
-                  value={editAmount}
-                  onChange={(e) => setEditAmount(e.target.value)}
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Buy Price (USD)
-                </label>
-                <Input
-                  type="number"
-                  step="any"
-                  min="0"
-                  value={editPrice}
-                  onChange={(e) => setEditPrice(e.target.value)}
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setEditingAsset(null)}>
-                  Cancel
-                </Button>
-                <Button onClick={submitEdit} disabled={isSubmittingEdit}>
-                  {isSubmittingEdit ? 'Updating...' : 'Update'}
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Last Updated */}
         <p className="text-center text-gray-400 text-sm mt-8">
